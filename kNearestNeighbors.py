@@ -9,6 +9,7 @@ It classifies the iris dataset.
 """
 import numpy as np
 from sklearn import datasets
+from sklearn import preprocessing
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -107,14 +108,22 @@ def main():
     dataset = datasets.load_iris()
 #    dataset = datasets.load_digits()
 #    dataset = datasets.load_breast_cancer()
+
+    # Obtain a normalizing scaler for scaling new data if added later
+    std_scaler = preprocessing.StandardScaler().fit(dataset.data)
+    
+    # Normalize the data
+    std_data = preprocessing.scale(dataset.data)
+    
+
     
     # Randomize the dataset and divide the data for testing and training 
     # The following line uses the iris dataset from sklearn
     data_train, data_test, targets_train, targets_test = train_test_split(
-            dataset.data, dataset.target, test_size = 0.30, random_state=42)
+            std_data, dataset.target, test_size = 0.30, random_state=42)
     
     # Declare the number of neighbors to use
-    k = 8
+    k = 9
     
     # Obtain a classifier. Note: comment/uncomment one or the other
     classifier = KNNClassifier(k) # My custom KNN classifier
